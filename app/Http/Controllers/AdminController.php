@@ -23,15 +23,15 @@ class AdminController extends Controller{
 
     $validatedData['password'] = bcrypt($request->password);
 
-    //$admin = Admin::create($validatedData);
+    $admin = Admin::create($validatedData);
 
     // Generate an authentication token for the registered user.
-    //$token = $admin->createToken('MyAppToken')->accessToken;
+    $token = $admin->createToken('MyAppToken')->accessToken;
     //
-    Admin::create($validatedData);
+    //Admin::create($validatedData);
 
-    return response()->json(['message' => 'Registration successful']);
-    //return response()->json(['admin' => $admin, 'token' => $token]);
+    //return response()->json(['message' => 'Registration successful']);
+    return response()->json(['admin' => $admin, 'token' => $token]);
 }
 
 public function login(Request $request)
