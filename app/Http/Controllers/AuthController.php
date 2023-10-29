@@ -78,11 +78,9 @@ public function updateAdmin(Request $request, $id)
 public function index()
 {
     $admins = Admin::all();
-    $response["admins"] = $admins;
-    $response["success"] = 1;
-    
-    return response()->json($response);
+    return response()->json(['admins' => $admins, 'success' => 1]);
 }
+
 
 
 }
