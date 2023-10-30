@@ -47,11 +47,7 @@ $router->post('password/reset/{token}', 'App\Http\Controllers\PasswordResetContr
 // //Route::post('/register', 'App\Http\Controllers\AuthController@register');
 
 
-// Admin Registration Routes
-$router->prefix('admin')->group(function () {
-    //Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm')->name('admin.register');
-    Route::post('/register', 'App\Http\Controllers\AdminAuth\RegisterController@register');
-});
+
 
 Route::get('register', [RegisterController::class, 'register']);
 Route::post('register', [RegisterController::class, 'store'])->name('register');
@@ -60,7 +56,7 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::post('login', [LoginController::class, 'authenticate']);
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 
-//Route::get('home', [HomeController::class, 'home'])->name('home');
+Route::get('home', [HomeController::class, 'home'])->name('home');
 
 Route::get('forget-password', [ForgotPasswordController::class, 'getEmail']);
 Route::post('forget-password', [ForgotPasswordController::class, 'postEmail']);
