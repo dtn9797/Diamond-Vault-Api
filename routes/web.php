@@ -47,8 +47,6 @@ Route::put('/admin/{id}', 'AdminController@updateAdmin')->middleware('auth:api')
 //retrieving the records of admin using token concept
 Route::get('/admins', 'AdminController@index')->middleware('auth:api');
 
-//register using token concept
-Route::post('/auth/register', 'App\Http\Controllers\AuthController@register');
 
-//login using token concept
-Route::post('/auth/login', 'AuthController@login');
+
+

@@ -10,6 +10,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Route;
+
 
 class AuthController extends Controller{
 
@@ -38,23 +42,45 @@ class AuthController extends Controller{
     $admin = Admin::create($validatedData);
 
     // Generate an authentication token for the registered user.
-    $token = $admin->createToken('MyAppToken')->accessToken;
+    $token = $admin->createToken('MyAppToken')->plainTextToken;
 
-    return response()->json(['admin' => $admin, 'token' => $token]);
+    return response()->json(['admin' => $admin, 'token' => $token],201);
 }
 
 public function login(Request $request)
 {
-    $credentials = $request->only('email', 'password');
+    $validatedData = $request->validate([
+        
+        'emailAddress' => 'required|string',
+        
+        'password' => 'required|string',
+    ]);
 
-    if (auth()->attempt($credentials)) {
-        $admin = auth()->user();
-        $token = $admin->createToken('MyAppToken')->accessToken;
+    //Check email
+    $admin = Admin::where('emailAddress',$validatedData['emailAddress'])->first();
 
-        return response()->json(['admin' => $admin, 'token' => $token]);
+    // Check password
+    if(!$admin || !Hash::check($validatedData['password'], $admin->password)) {
+        return response([
+            'message' => 'Bad creds'
+        ], 401);
     }
 
-    return response()->json(['error' => 'Unauthorized'], 401);
+    $token = $admin->createToken('MyAppToken')->plainTextToken;
+
+    $response = [
+        'admin' => $admin,
+        'token' => $token
+    ];
+
+    return response($response, 201);
+}
+
+public function logout(Request $request){
+    auth()->user()->tokens()->delete();
+    return[
+        'message' => 'Logged out'
+    ];
 }
 
 public function updateAdmin(Request $request, $id)
