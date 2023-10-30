@@ -48,7 +48,7 @@ Route::put('/admin/{id}', 'AdminController@updateAdmin')->middleware('auth:api')
 Route::get('/admins', 'AdminController@index')->middleware('auth:api');
 
 //register using token concept
-Route::post('/auth/register', 'AuthController@register');
+Route::post('/auth/register', 'App\Http\Controllers\AuthController@register');
 
 //login using token concept
 Route::post('/auth/login', 'AuthController@login');
