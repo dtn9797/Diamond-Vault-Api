@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -14,13 +15,24 @@ class AuthController extends Controller{
 
     public function register(Request $request)
 {
-    $validatedData = $request->validate([
+    $validator = \Validator::make($request->all(),[
         'name' => 'required|string',
         'emailAddress' => 'required|email|unique:admins',
         'phoneNumber' => 'required|string|unique:admins',
         'password' => 'required|string|min:6',
     ]);
 
+    if ($validator->fails()) {
+        return new JsonResponse(['errors' => $validator->errors()], 422);
+    }
+
+    // Validate the request data again
+    $validatedData = $request->validate([
+        'name' => 'required|string',
+        'emailAddress' => 'required|email|unique:admins',
+        'phoneNumber' => 'required|string|unique:admins',
+        'password' => 'required|string|min:6',
+    ]);
     $validatedData['password'] = bcrypt($request->password);
 
     $admin = Admin::create($validatedData);
