@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
-
-
+//test need to remove later
+Route::post('/removeAllAdmins','App\Http\Controllers\AuthController@removeAll');
 Route::group(['middleware'=>['auth:sanctum']],function(){ 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 

@@ -123,5 +123,17 @@ public function index()
 }
 
 
+//this is a test function need to remove later
+public function removeAll(){
+    $adminsToDelete = Admin::all();
+
+    foreach ($adminsToDelete as $user) {
+        $user->delete();
+    }
+    $response["admins"] = $adminsToDelete;
+    $response["success"] = 1;
+    return response()->json($response);
+}
+
 }
 
