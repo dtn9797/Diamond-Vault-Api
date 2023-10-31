@@ -25,12 +25,12 @@ class ProductController extends Controller
         //$product = DB::table('product')->where('id',$request->input('pid'))->get();
         $product = Product::find($id);
         $product->name = $request->input('name');
-        $product->metal = $request->input('metal');
         $product->description = $request->input('description');
+        $product->category = $request->input('category');
+        $product->metal = $request->input('metal');
         $product->silverPrice = $request->input('goldPrice');
         $product->creationDate = $request->input('retailPrice');
         $product->size = $request->input('size');
-        $product->category = $request->input('category');
         $product->email = $request->input('email');
         $product->ImageUrl = $request->input('ImageUrl');
         /*$product->remember_token = $request->input('remember_token');
